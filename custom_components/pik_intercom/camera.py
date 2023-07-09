@@ -45,6 +45,7 @@ from custom_components.pik_intercom.helpers import (
 )
 from pik_intercom import (
     PikIntercomException,
+    PikAccessDeniedIntercomException,
     ObjectWithVideo,
     ObjectWithSnapshot,
     ObjectWithSIP,
@@ -188,6 +189,10 @@ class _BaseIntercomCamera(BasePikEntity, Camera, ABC):
                     # Send the request to snap a picture and return raw JPEG data
                     if snapshot_image := await internal_object.get_snapshot():
                         return snapshot_image
+                except PikAccessDeniedIntercomException as error:
+                    _LOGGER.error(
+                        log_prefix + f"Ошибка доступа к снимку: {error}"
+                    )
                 except PikIntercomException as error:
                     _LOGGER.error(
                         log_prefix + f"Ошибка получения снимка: {error}"

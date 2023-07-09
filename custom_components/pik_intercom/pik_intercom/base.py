@@ -16,7 +16,7 @@ from typing import Optional, TYPE_CHECKING, Final, Mapping, Any
 
 import aiohttp
 
-from .errors import PikIntercomException
+from .errors import PikIntercomException, PikAccessDeniedIntercomException
 
 if TYPE_CHECKING:
     from . import PikIntercomAPI
@@ -87,6 +87,16 @@ class ObjectWithSnapshot(BaseObject, ABC):
             )
             raise PikIntercomException(
                 f"Could not perform {title} (timed out)"
+            )
+
+        except aiohttp.ClientResponseError as e:
+            if e.status != 403:
+                raise e
+            _LOGGER.error(
+                log_prefix + f"Could not perform {title}, client response error: {e}"
+            )
+            raise PikAccessDeniedIntercomException(
+                f"Could not perform {title} (client response error)"
             )
 
         except aiohttp.ClientError as e:
