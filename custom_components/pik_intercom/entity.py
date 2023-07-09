@@ -157,6 +157,7 @@ class PikLastCallSessionUpdateCoordinator(
         if last_call_session := await (
             api := self.api_object
         ).fetch_last_active_session():
+            self.logger.debug(last_call_session)
             return last_call_session
 
         if (data := self.data) is False:

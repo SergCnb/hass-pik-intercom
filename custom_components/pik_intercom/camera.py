@@ -125,8 +125,10 @@ class _BaseIntercomCamera(BasePikEntity, Camera, ABC):
     def _update_attr(self) -> None:
         """Update attributes for Pik Intercom camera entity."""
         super()._update_attr()
-
+        self.logger.debug('Update attributes for Pik Intercom camera entity')
         device = self._internal_object
+        self.logger.debug(device)
+        self.logger.debug(device.id)
         if not (
             extra_state_attributes := getattr(
                 self, "_attr_extra_state_attributes", None
@@ -135,6 +137,8 @@ class _BaseIntercomCamera(BasePikEntity, Camera, ABC):
             self._attr_extra_state_attributes = extra_state_attributes = {}
 
         if isinstance(device, ObjectWithVideo):
+            self.logger.debug('isinstance(device, ObjectWithVideo)')
+            self.logger.debug(f'stream_url = {device.stream_url}')
             extra_state_attributes[
                 "stream_url"
             ] = stream_source = device.stream_url
@@ -147,6 +151,8 @@ class _BaseIntercomCamera(BasePikEntity, Camera, ABC):
                     setattr(stream, "_fast_restart_once", True)
 
         if isinstance(device, ObjectWithSnapshot):
+            self.logger.debug('isinstance(device, ObjectWithSnapshot)')
+            self.logger.debug(f'snapshot_url = {device.snapshot_url}')
             extra_state_attributes["snapshot_url"] = device.snapshot_url
 
         if isinstance(device, ObjectWithSIP):
