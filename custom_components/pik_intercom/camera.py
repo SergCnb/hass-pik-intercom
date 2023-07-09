@@ -184,34 +184,21 @@ class _BaseIntercomCamera(BasePikEntity, Camera, ABC):
 
         # Attempt to retrieve snapshot image using photo URL
         if isinstance(internal_object, ObjectWithSnapshot):
-            if photo_url := internal_object.snapshot_url:
+            if internal_object.snapshot_url:
                 try:
                     # Send the request to snap a picture and return raw JPEG data
                     if snapshot_image := await internal_object.get_snapshot():
                         return snapshot_image
                 except PikAccessDeniedIntercomException as error:
-                    _LOGGER.error(
+                    _LOGGER.warning(
                         log_prefix + f"Ошибка доступа к снимку: {error}"
                     )
-                    _LOGGER.error(log_prefix + "schedule_update_ha_state")
-                    self.schedule_update_ha_state(True)
-                    _LOGGER.error(internal_object.snapshot_url)
-                    _LOGGER.error(self.access_tokens)
 
-                    _LOGGER.error(log_prefix + "async_device_update")
-                    await self.async_device_update(False)
-                    _LOGGER.error(internal_object.snapshot_url)
-                    _LOGGER.error(self.access_tokens)
-
-                    _LOGGER.error(log_prefix + "async_update")
-                    await self.async_update()
-                    _LOGGER.error(internal_object.snapshot_url)
-                    _LOGGER.error(self.access_tokens)
+                    self.schedule_update_ha_state()
                 except PikIntercomException as error:
-                    print('except')
-                    # _LOGGER.error(
-                    #     log_prefix + f"Ошибка получения снимка: {error}"
-                    # )
+                    _LOGGER.error(
+                        log_prefix + f"Ошибка получения снимка: {error}"
+                    )
 
         if isinstance(internal_object, ObjectWithVideo):
             # Attempt to retrieve snapshot image using RTSP stream
