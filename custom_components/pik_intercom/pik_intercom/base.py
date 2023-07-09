@@ -89,20 +89,17 @@ class ObjectWithSnapshot(BaseObject, ABC):
                 f"Could not perform {title} (timed out)"
             )
 
-        except aiohttp.ClientResponseError as e:
-            if e.status != 403:
-                raise e
-            _LOGGER.error(
-                log_prefix + f"Could not perform {title}, client response error: {e}"
-            )
-            raise PikAccessDeniedIntercomException(
-                f"Could not perform {title} (client response error)"
-            )
-
         except aiohttp.ClientError as e:
             _LOGGER.error(
                 log_prefix + f"Could not perform {title}, client error: {e}"
             )
+
+            if isinstance(e, aiohttp.ClientResponseError):
+                if e.status == 403:
+                    raise PikAccessDeniedIntercomException(
+                        f"Could not perform {title} (client response error)"
+                    )
+
             raise PikIntercomException(
                 f"Could not perform {title} (client error)"
             )

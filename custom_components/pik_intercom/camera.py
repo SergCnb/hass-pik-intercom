@@ -193,10 +193,25 @@ class _BaseIntercomCamera(BasePikEntity, Camera, ABC):
                     _LOGGER.error(
                         log_prefix + f"Ошибка доступа к снимку: {error}"
                     )
+                    _LOGGER.error(log_prefix + "schedule_update_ha_state")
+                    self.schedule_update_ha_state(True)
+                    _LOGGER.error(internal_object.snapshot_url)
+                    _LOGGER.error(self.access_tokens)
+
+                    _LOGGER.error(log_prefix + "async_device_update")
+                    await self.async_device_update(False)
+                    _LOGGER.error(internal_object.snapshot_url)
+                    _LOGGER.error(self.access_tokens)
+
+                    _LOGGER.error(log_prefix + "async_update")
+                    await self.async_update()
+                    _LOGGER.error(internal_object.snapshot_url)
+                    _LOGGER.error(self.access_tokens)
                 except PikIntercomException as error:
-                    _LOGGER.error(
-                        log_prefix + f"Ошибка получения снимка: {error}"
-                    )
+                    print('except')
+                    # _LOGGER.error(
+                    #     log_prefix + f"Ошибка получения снимка: {error}"
+                    # )
 
         if isinstance(internal_object, ObjectWithVideo):
             # Attempt to retrieve snapshot image using RTSP stream
