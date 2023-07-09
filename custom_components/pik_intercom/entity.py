@@ -48,7 +48,7 @@ from custom_components.pik_intercom.helpers import (
     AnyLogger,
     get_logger,
 )
-from pik_intercom import (
+from .pik_intercom import (
     IcmIntercom,
     IotIntercom,
     IotRelay,
@@ -60,7 +60,7 @@ from pik_intercom import (
     IcmActiveCallSession,
     BaseObject,
 )
-from pik_intercom import PikIntercomAPI
+from .pik_intercom import PikIntercomAPI
 
 _LOGGER = logging.getLogger(__name__)
 
