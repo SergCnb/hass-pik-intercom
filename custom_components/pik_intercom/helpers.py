@@ -24,7 +24,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from custom_components.pik_intercom.const import DEFAULT_VERIFY_SSL, DOMAIN
-from pik_intercom import PikIntercomAPI, PikIntercomException
+from .pik_intercom import PikIntercomAPI, PikIntercomException
 
 _LOGGER: Final = logging.getLogger(__name__)
 

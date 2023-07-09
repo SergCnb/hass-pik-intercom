@@ -44,7 +44,7 @@ from custom_components.pik_intercom.helpers import (
     async_get_authenticated_api,
     async_change_device_prefix,
 )
-from pik_intercom import PikIntercomAPI, PikIntercomException
+from .pik_intercom import PikIntercomAPI, PikIntercomException
 
 _LOGGER: Final = logging.getLogger(__name__)
 

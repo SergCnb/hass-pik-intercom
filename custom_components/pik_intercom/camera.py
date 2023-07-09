@@ -43,7 +43,7 @@ from custom_components.pik_intercom.entity import (
 from custom_components.pik_intercom.helpers import (
     get_logger,
 )
-from pik_intercom import (
+from .pik_intercom import (
     PikIntercomException,
     ObjectWithVideo,
     ObjectWithSnapshot,
